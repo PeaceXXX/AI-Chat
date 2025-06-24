@@ -1,4 +1,4 @@
-package com.mobile_tepm
+package com.ai_chat_ui
 
 import android.app.Application
 import com.facebook.react.PackageList

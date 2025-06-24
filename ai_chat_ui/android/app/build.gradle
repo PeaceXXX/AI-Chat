@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.mobile_tepm"
+    namespace "com.ai_chat_ui"
     defaultConfig {
-        applicationId "com.mobile_tepm"
+        applicationId "com.ai_chat_ui"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
