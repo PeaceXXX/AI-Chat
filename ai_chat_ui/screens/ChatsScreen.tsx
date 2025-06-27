@@ -1,24 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StatusBar, Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 declare global {
   var chatFriends: string[];
 }
 
+const CHAT_FRIENDS_KEY = 'chat_friends_list';
+
 export default function ChatsScreen({ navigation }: any) {
   const [chatFriends, setChatFriends] = useState<string[]>(global.chatFriends || []);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    const handler = () => setChatFriends([...global.chatFriends]);
-    // 简单事件模拟
+    (async () => {
+      const data = await AsyncStorage.getItem(CHAT_FRIENDS_KEY);
+      if (data) {
+        const arr = JSON.parse(data);
+        setChatFriends(arr);
+        global.chatFriends = arr;
+      } else {
+        setChatFriends([]);
+        global.chatFriends = [];
+      }
+    })();
+  }, [isFocused]);
+
+  useEffect(() => {
+    const handler = async () => {
+      const data = await AsyncStorage.getItem(CHAT_FRIENDS_KEY);
+      if (data) {
+        const arr = JSON.parse(data);
+        setChatFriends(arr);
+        global.chatFriends = arr;
+      } else {
+        setChatFriends([]);
+        global.chatFriends = [];
+      }
+    };
     (global as any).onChatFriendsChange = handler;
     return () => { (global as any).onChatFriendsChange = undefined; };
   }, []);
-
-  // 监听全局 chatFriends 变化
-  useEffect(() => {
-    setChatFriends([...global.chatFriends]);
-  }, [global.chatFriends.length]);
 
   return (
     <SafeAreaView style={styles.container}>
