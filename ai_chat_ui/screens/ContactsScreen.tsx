@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StatusBar, Text, View, StyleSheet, TextInput, TouchableOpacity, FlatList, Modal, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 declare global {
   var chatFriends: string[];
 }
 if (!global.chatFriends) global.chatFriends = [];
+
+const FRIENDS_KEY = 'contacts_friends_list';
+const CHAT_FRIENDS_KEY = 'chat_friends_list';
 
 export default function ContactsScreen() {
   const [friendName, setFriendName] = useState('');
@@ -13,6 +17,19 @@ export default function ContactsScreen() {
   const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
   const [showMenu, setShowMenu] = useState(false);
   const navigation = useNavigation<any>();
+
+  // 加载好友列表
+  useEffect(() => {
+    (async () => {
+      const data = await AsyncStorage.getItem(FRIENDS_KEY);
+      if (data) setFriends(JSON.parse(data));
+    })();
+  }, []);
+
+  // 保存好友列表
+  useEffect(() => {
+    AsyncStorage.setItem(FRIENDS_KEY, JSON.stringify(friends));
+  }, [friends]);
 
   const handleAddFriend = () => {
     if (friendName.trim()) {
@@ -37,12 +54,16 @@ export default function ContactsScreen() {
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setShowMenu(false);
     if (selectedFriend) {
       setFriends(prev => prev.filter(f => f !== selectedFriend));
-      // 也可从聊天好友移除
       global.chatFriends = global.chatFriends.filter((f: string) => f !== selectedFriend);
+      // 更新持久化聊天好友列表
+      await AsyncStorage.setItem(CHAT_FRIENDS_KEY, JSON.stringify(global.chatFriends));
+      if (typeof (global as any).onChatFriendsChange === 'function') {
+        (global as any).onChatFriendsChange();
+      }
     }
   };
 
