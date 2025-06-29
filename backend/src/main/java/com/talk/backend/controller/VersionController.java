@@ -1,22 +1,31 @@
 package com.talk.backend.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.HashMap;
-import java.util.Map;
+import com.talk.backend.service.VersionService;
+import com.talk.backend.object.VersionRequest;
+import com.talk.backend.object.VersionResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
 public class VersionController {
 
+    @Autowired
+    private VersionService versionService;
+
     @GetMapping("/version")
-    public Map<String, Object> getVersion() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("version", "1.0.0");
-        response.put("name", "AI Chat Backend");
-        response.put("status", "running");
-        response.put("timestamp", System.currentTimeMillis());
-        return response;
+    public VersionResponse getVersion() {
+        String version = versionService.getVersion();
+        String status = version != null ? "ok" : "not set";
+        long timestamp = System.currentTimeMillis();
+        return new VersionResponse(version, status, timestamp);
+    }
+
+    @PostMapping("/version")
+    public VersionResponse saveOrUpdateVersion(@Valid @RequestBody VersionRequest body) {
+        String version = body.getVersion();
+        versionService.saveOrUpdateVersion(version);
+        return new VersionResponse(version, "saved", System.currentTimeMillis());
     }
 } 
