@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "mobile_tepm.app"
-               BlueprintName = "mobile_tepm"
-               ReferencedContainer = "container:mobile_tepm.xcodeproj">
+               BuildableName = "ai_chat_ui.app"
+               BlueprintName = "ai_chat_ui"
+               ReferencedContainer = "container:ai_chat_ui.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "mobile_tepmTests.xctest"
-               BlueprintName = "mobile_tepmTests"
-               ReferencedContainer = "container:mobile_tepm.xcodeproj">
+               BuildableName = "ai_chat_uiTests.xctest"
+               BlueprintName = "ai_chat_uiTests"
+               ReferencedContainer = "container:ai_chat_ui.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "mobile_tepm.app"
-            BlueprintName = "mobile_tepm"
-            ReferencedContainer = "container:mobile_tepm.xcodeproj">
+            BuildableName = "ai_chat_ui.app"
+            BlueprintName = "ai_chat_ui"
+            ReferencedContainer = "container:ai_chat_ui.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "mobile_tepm.app"
-            BlueprintName = "mobile_tepm"
-            ReferencedContainer = "container:mobile_tepm.xcodeproj">
+            BuildableName = "ai_chat_ui.app"
+            BlueprintName = "ai_chat_ui"
+            ReferencedContainer = "container:ai_chat_ui.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
