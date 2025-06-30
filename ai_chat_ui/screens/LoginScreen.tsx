@@ -8,14 +8,44 @@ export default function LoginScreen({ navigation }: any) {
     GoogleSignin.configure({ webClientId });
   }, []);
 
+  const registerOrLoginWithGoogle = async (userInfo: any) => {
+    try {
+      // 注意：如果用真机，请将localhost改为你电脑的局域网IP
+      const response = await fetch('http://10.0.2.2:5050/api/users/google-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          googleId: userInfo.id,
+          email: userInfo.email,
+          displayName: userInfo.name,
+          username: userInfo.givenName,
+          avatarUrl: userInfo.photo,
+          authProvider: "GOOGLE",
+        })
+        
+      });
+      
+
+      const user = await response.json();
+      
+      console.log('User from backend:', user);
+      // 你可以在这里保存user到本地或全局状态
+    } catch (err) {
+      console.log('Failed to register/login with backend:', err);
+    }
+  };
+
   const handleLogin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+      console.log('Google userInfo:', userInfo);
+      await registerOrLoginWithGoogle(userInfo.data?.user);
       navigation.replace('MainTabs');
     } catch (error: any) {
       Alert.alert('登录失败', error.message ? error.message : JSON.stringify(error));
-      navigation.replace('MainTabs');
     }
   };
 
